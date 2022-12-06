@@ -47,7 +47,7 @@ THIRD_PARTY_APP = [
     'rest_framework.authtoken',
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS = ['core']
 
 INSTALLED_APPS = DJANGO_APPS + DJANGO_EXTRA_APPS + THIRD_PARTY_APP + PROJECT_APPS
 
@@ -147,5 +147,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 24
+    'PAGE_SIZE': 10
 }
