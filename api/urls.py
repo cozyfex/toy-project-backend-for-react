@@ -6,7 +6,7 @@ from api import views
 app_name = 'api'
 
 router = routers.DefaultRouter()
-router.register(r'base_board', views.BaseBoardSet, basename='base_board')
+router.register(r'base-board', views.BaseBoardSet, basename='base-board')
 
 urlpatterns = [
     path('', include(router.urls)),
