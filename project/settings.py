@@ -165,9 +165,9 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = []
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r'^http://localhost',
-    r"cozyfex\.com$",
+    r'cozyfex\.com$',
 ]
 CORS_ALLOW_ALL_ORIGINS = False
 CSRF_TRUSTED_ORIGINS = [
-    "https://api.cozyfex.com"
+    'https://api.cozyfex.com'
 ]

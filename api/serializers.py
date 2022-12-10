@@ -6,4 +6,4 @@ from core.models import BaseBoard
 class BaseBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseBoard
-        fields = "__all__"
+        fields = '__all__'

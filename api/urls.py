@@ -11,4 +11,5 @@ router.register(r'base-board', views.BaseBoardSet, basename='base-board')
 urlpatterns = [
     path('', include(router.urls)),
     path('auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('dump', views.dump_board, name='dump')
 ]
