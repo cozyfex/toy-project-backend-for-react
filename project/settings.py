@@ -45,6 +45,7 @@ THIRD_PARTY_APP = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'github_webhooks',
 ]
 
 PROJECT_APPS = [
@@ -176,5 +177,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://api.cozyfex.com'
 ]
 
-# GitHub Webhook Key
-GITHUB_WEBHOOK_KEY = str(os.environ.get('GITHUB_WEBHOOK_KEY'))
+# GitHub Webhooks
+DJANGO_GITHUB_WEBHOOKS = {
+    'SECRET': str(os.environ.get('DJANGO_GITHUB_WEBHOOK_SECRET')),
+    'ALLOWED_EVENTS': ['push'],
+}
