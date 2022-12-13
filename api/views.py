@@ -40,7 +40,7 @@ def webhook(request):
         if client_ip_address in ip_network(valid_ip):
             valid_access = True
             break
-    if valid_access:
+    if not valid_access:
         return HttpResponseForbidden('Permission denied.')
 
     # Verify the request signature
