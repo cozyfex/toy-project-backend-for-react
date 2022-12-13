@@ -165,6 +165,9 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = []
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r'^http://localhost',
+    r'^http://127.0.0.1',
+    r'^https://kimminyoung.cozyfex.com',
+    r'^https://chloe.cozyfex.com',
     r'cozyfex\.com$',
 ]
 CORS_ALLOW_ALL_ORIGINS = False
