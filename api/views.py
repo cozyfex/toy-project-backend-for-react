@@ -15,7 +15,7 @@ class BaseBoardSet(viewsets.ModelViewSet):
     queryset = BaseBoard.objects.all().order_by('-id')
 
 
-def dump_board(request):
+def dump_board():
     fake = Faker(['ko_KR'])
 
     for _ in range(123):
@@ -24,4 +24,4 @@ def dump_board(request):
         board.content = fake.sentence()
         board.save()
 
-    return "done"
+    return ''
