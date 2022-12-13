@@ -3,6 +3,7 @@ from hashlib import sha1
 from ipaddress import ip_address, ip_network
 
 import requests
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
 from django.utils.encoding import force_bytes
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +14,6 @@ from rest_framework.pagination import PageNumberPagination
 
 from api.serializers import BaseBoardSerializer
 from core.models import BaseBoard
-from project import settings
 
 
 # Create your views here.
