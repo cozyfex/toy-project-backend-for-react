@@ -30,7 +30,9 @@ class BaseBoardSet(viewsets.ModelViewSet):
 def webhook(request):
     # Verify if request came from GitHub
     forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
-    client_ip_address = ip_address(forwarded_for)
+    client_ip_address = ip_address(
+        forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
+    )
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
     for valid_ip in whitelist:
