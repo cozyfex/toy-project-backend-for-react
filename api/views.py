@@ -35,10 +35,12 @@ def webhook(request):
     )
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
+    valid_access = False
     for valid_ip in whitelist:
         if client_ip_address in ip_network(valid_ip):
+            valid_access = True
             break
-    else:
+    if valid_access:
         return HttpResponseForbidden('Permission denied.')
 
     # Verify the request signature
