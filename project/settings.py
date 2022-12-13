@@ -175,3 +175,6 @@ CORS_ALLOW_ALL_ORIGINS = False
 CSRF_TRUSTED_ORIGINS = [
     'https://api.cozyfex.com'
 ]
+
+# GitHub Webhook Key
+GITHUB_WEBHOOK_KEY = str(os.environ.get('GITHUB_WEBHOOK_KEY'))
