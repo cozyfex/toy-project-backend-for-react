@@ -30,23 +30,23 @@ class BaseBoardSet(viewsets.ModelViewSet):
 def webhook(request):
     # Verify if request came from GitHub
     forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
-    # client_ip_address = ip_address(
-    #     forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
-    # )
-    # client_ip_address = ip_address('185.199.108.3')
-    # whitelist = requests.get('https://api.github.com/meta').json()['hooks']
-    #
-    # valid_access = False
-    # for valid_ip in whitelist:
-    #     if client_ip_address in ip_network(valid_ip):
-    #         valid_access = True
-    #         break
-    # if valid_access is not True:
-    #     return HttpResponseForbidden('Permission denied.')
+    client_ip_address = ip_address(
+        forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
+    )
+    client_ip_address = ip_address('185.199.108.3')
+    whitelist = requests.get('https://api.github.com/meta').json()['hooks']
+
+    valid_access = False
+    for valid_ip in whitelist:
+        if client_ip_address in ip_network(valid_ip):
+            valid_access = True
+            break
+    if valid_access is not True:
+        return HttpResponseForbidden('Permission denied.')
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE-256')
-    header_signature = 'sha256=37591682021f0f59d63dc632764cb049728277709566703ebf22ce67af7e1875'
+    # header_signature = 'sha256=37591682021f0f59d63dc632764cb049728277709566703ebf22ce67af7e1875'
     if header_signature is None:
         return HttpResponseForbidden('Permission denied.')
 
@@ -54,12 +54,12 @@ def webhook(request):
     if sha_name != 'sha256':
         return HttpResponseServerError('Operation not supported.', status=501)
 
-    signature_bytes = bytes(settings.GITHUB_WEBHOOK_KEY, 'utf-8')
-    digest = hmac.new(key=signature_bytes, msg=request.body, digestmod=sha256)
+    secret = settings.GITHUB_WEBHOOK_KEY.encode('utf-8')
+    digest = hmac.new(key=secret, msg=request.body, digestmod=sha256)
     calculated_signature = digest.hexdigest()
 
-    if calculated_signature != signature:
-        return HttpResponseForbidden('Permission denied.')
+    if not hmac.compare_digest(signature, calculated_signature):
+        return HttpResponseForbidden('Permission denied..')
 
     # If request reached this point we are in a good shape
     # Process the GitHub events
