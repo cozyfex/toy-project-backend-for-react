@@ -42,13 +42,15 @@ def webhook(request):
             valid_access = True
             break
     if valid_access is not True:
-        return HttpResponseForbidden('Permission denied.')
+        # return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('IP')
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE-256')
     # header_signature = 'sha256=8505306a683627fa31f8e6138f7befe97c11b01d574083e1e2a78ad8244d1350'
     if header_signature is None:
-        return HttpResponseForbidden('Permission denied.')
+        # return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('header')
 
     sha_name, signature = header_signature.split('=')
     if sha_name != 'sha256':
@@ -58,10 +60,8 @@ def webhook(request):
     digest = hmac.new(key=secret, msg=request.body, digestmod=sha256)
     calculated_signature = digest.hexdigest()
 
-    # return HttpResponse(calculated_signature + '<br/>' + signature)
-
     if not hmac.compare_digest(header_signature, 'sha256=' + calculated_signature):
-        return HttpResponseForbidden('Permission denied..')
+        return HttpResponseForbidden('key')
 
     # If request reached this point we are in a good shape
     # Process the GitHub events
