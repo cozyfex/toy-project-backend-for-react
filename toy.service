@@ -18,6 +18,5 @@ PrivateTmp=true
 WantedBy=multi-user.target
 
 # Add service
-# ln -s /home/cozyfex/api/gunicorn.service /etc/systemd/system/api.service
-# systemctl enable api
-# systemctl start api
+# systemctl enable /home/cozyfex/api/toy.service
+# systemctl start toy
