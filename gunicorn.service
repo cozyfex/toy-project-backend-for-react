@@ -1,0 +1,21 @@
+[Unit]
+Description=gunicorn api daemon
+After=network.target
+
+[Service]
+Type=notify
+User=cozyfex
+Group=nginx
+WorkingDirectory=/home/cozyfex/api
+EnvironmentFile=/home/cozyfex/api/.env
+ExecStart=/home/cozyfex/api/.venv/bin/gunicorn project.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
+# Symbolic link
+# ls -s /home/cozyfex/api/gunicorn.service /etc/systemd/system/api.service
