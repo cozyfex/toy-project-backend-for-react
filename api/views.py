@@ -33,7 +33,7 @@ def webhook(request):
     client_ip_address = ip_address(
         forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
     )
-    client_ip_address = ip_address('185.199.108.3')
+    # client_ip_address = ip_address('185.199.108.3')
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
     valid_access = False
@@ -46,7 +46,7 @@ def webhook(request):
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE-256')
-    # header_signature = 'sha256=37591682021f0f59d63dc632764cb049728277709566703ebf22ce67af7e1875'
+    # header_signature = 'sha256=8505306a683627fa31f8e6138f7befe97c11b01d574083e1e2a78ad8244d1350'
     if header_signature is None:
         return HttpResponseForbidden('Permission denied.')
 
@@ -58,7 +58,9 @@ def webhook(request):
     digest = hmac.new(key=secret, msg=request.body, digestmod=sha256)
     calculated_signature = digest.hexdigest()
 
-    if not hmac.compare_digest(signature, calculated_signature):
+    # return HttpResponse(calculated_signature + '<br/>' + signature)
+
+    if not hmac.compare_digest(header_signature, 'sha256=' + calculated_signature):
         return HttpResponseForbidden('Permission denied..')
 
     # If request reached this point we are in a good shape
