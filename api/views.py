@@ -87,3 +87,4 @@ def dump_board():
         board.save()
 
     return HttpResponse('done')
+
