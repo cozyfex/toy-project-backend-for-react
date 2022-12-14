@@ -17,5 +17,7 @@ PrivateTmp=true
 [Install]
 WantedBy=multi-user.target
 
-# Symbolic link
-# ls -s /home/cozyfex/api/gunicorn.service /etc/systemd/system/api.service
+# Add service
+# ln -s /home/cozyfex/api/gunicorn.service /etc/systemd/system/api.service
+# systemctl enable api
+# systemctl start api
