@@ -46,7 +46,7 @@ def webhook(request):
         return HttpResponseForbidden('IP')
 
     # Verify the request signature
-    header_signature = request.META.get('HTTP_X_HUB_SIGNATURE-256')
+    header_signature = request.META.get('HTTP_X_HUB_SIGNATURE_256')
     # header_signature = 'sha256=8505306a683627fa31f8e6138f7befe97c11b01d574083e1e2a78ad8244d1350'
     if header_signature is None:
         # return HttpResponseForbidden('Permission denied.')
