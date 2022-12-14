@@ -1,4 +1,5 @@
 import hmac
+import subprocess
 from hashlib import sha256
 from ipaddress import ip_address, ip_network
 
@@ -33,7 +34,6 @@ def webhook(request):
     client_ip_address = ip_address(
         forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
     )
-    # client_ip_address = ip_address('185.199.108.3')
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
     valid_access = False
@@ -42,15 +42,12 @@ def webhook(request):
             valid_access = True
             break
     if valid_access is not True:
-        # return HttpResponseForbidden('Permission denied.')
-        return HttpResponseForbidden('IP')
+        return HttpResponseForbidden('Permission denied.')
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE_256')
-    # header_signature = 'sha256=8505306a683627fa31f8e6138f7befe97c11b01d574083e1e2a78ad8244d1350'
     if header_signature is None:
-        # return HttpResponseForbidden('Permission denied.')
-        return HttpResponseForbidden('header')
+        return HttpResponseForbidden('Permission denied.')
 
     sha_name, signature = header_signature.split('=')
     if sha_name != 'sha256':
@@ -61,7 +58,7 @@ def webhook(request):
     calculated_signature = digest.hexdigest()
 
     if not hmac.compare_digest(header_signature, 'sha256=' + calculated_signature):
-        return HttpResponseForbidden('key')
+        return HttpResponseForbidden('Permission denied.')
 
     # If request reached this point we are in a good shape
     # Process the GitHub events
@@ -71,6 +68,7 @@ def webhook(request):
         return HttpResponse('pong')
     elif event == 'push':
         # Deploy some code for example
+        subprocess.Popen(['git', 'pull', 'origin', 'main'], cwd=settings.BASE_DIR)
         return HttpResponse('success')
 
     # In case we receive an event that's not ping or push
