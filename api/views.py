@@ -5,6 +5,7 @@ from ipaddress import ip_address, ip_network
 
 import requests
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
 from django.utils.encoding import force_bytes
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +14,7 @@ from faker import Faker
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 
-from api.serializers import BaseBoardSerializer
+from api.serializers import BaseBoardSerializer, UserSerializer
 from core.models import BaseBoard
 
 
@@ -23,6 +24,13 @@ class BaseBoardSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     queryset = BaseBoard.objects.all().order_by('-id')
+
+
+class UserSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    pagination_class = PageNumberPagination
+
+    queryset = User.objects.all().order_by('-id')
 
 
 # Webhook of GitHub
@@ -87,4 +95,3 @@ def dump_board():
         board.save()
 
     return HttpResponse('done')
-

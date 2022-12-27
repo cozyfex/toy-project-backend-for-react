@@ -7,6 +7,7 @@ app_name = 'api'
 
 router = routers.DefaultRouter()
 router.register(r'base-board', views.BaseBoardSet, basename='base-board')
+router.register(r'user', views.UserSet, basename='user')
 
 urlpatterns = [
     path('', include(router.urls)),
