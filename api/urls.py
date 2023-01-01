@@ -3,7 +3,7 @@ from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 from api import views
-from project import hooks
+from core import views as core_views
 
 app_name = 'api'
 
@@ -19,5 +19,5 @@ urlpatterns = [
     path(r'jwt-verify', verify_jwt_token),
     path(r'login', views.post_login, name='login'),
     path(r'dump', views.dump_board, name='dump'),
-    path(r'webhook', hooks.webhook, name='webhook')
+    path(r'webhook', core_views.webhook, name='webhook')
 ]
