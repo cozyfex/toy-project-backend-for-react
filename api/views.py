@@ -106,7 +106,6 @@ def webhook(request):
     elif event == 'push':
         # Deploy some code for example
         subprocess.Popen(['git', 'pull', 'origin', 'main'], cwd=settings.BASE_DIR)
-        subprocess.Popen(['.venv/bin/pip', 'install', '-r', 'requirements.pip'], cwd=settings.BASE_DIR)
         return HttpResponse('success')
 
     # In case we receive an event that's not ping or push
