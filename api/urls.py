@@ -19,5 +19,5 @@ urlpatterns = [
     path(r'jwt-verify', verify_jwt_token),
     path(r'login', views.post_login, name='login'),
     path(r'dump', views.dump_board, name='dump'),
-    path(r'webhook', core_views.webhook, name='webhook')
+    path(r'webhook', views.webhook, name='webhook')
 ]
