@@ -11,7 +11,7 @@ from ipaddress import ip_address, ip_network
 
 
 # Webhook of GitHub
-# @require_POST
+@require_POST
 @csrf_exempt
 def webhook(request):
     # Verify if request came from GitHub
