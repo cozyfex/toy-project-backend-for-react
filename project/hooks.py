@@ -7,7 +7,7 @@ from django.conf import settings
 from django.http import HttpResponseForbidden, HttpResponseServerError, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from ipaddress import ip_address
+from ipaddress import ip_address, ip_network
 
 
 # Webhook of GitHub
