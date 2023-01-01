@@ -11,14 +11,14 @@ from ipaddress import ip_address, ip_network
 
 
 # Webhook of GitHub
-@require_POST
+# @require_POST
 @csrf_exempt
 def webhook(request):
     # Verify if request came from GitHub
-    forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
-    client_ip_address = ip_address(
-        forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
-    )
+    client_ip = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR')) \
+        if request.META.get('HTTP_X_FORWARDED_FOR') \
+        else u'{}'.format(request.META.get('REMOTE_ADDR'))
+    client_ip_address = ip_address(client_ip)
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
     valid_access = False
@@ -55,6 +55,7 @@ def webhook(request):
         # Deploy some code for example
         subprocess.Popen(['git', 'pull', 'origin', 'main'], cwd=settings.BASE_DIR)
         subprocess.Popen(['.venv/bin/pip', 'install', '-r', 'requirements.pip'], cwd=settings.BASE_DIR)
+
         return HttpResponse('success')
 
     # In case we receive an event that's not ping or push
