@@ -15,10 +15,10 @@ from ipaddress import ip_address, ip_network
 @csrf_exempt
 def webhook(request):
     # Verify if request came from GitHub
-    client_ip = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR')) \
-        if request.META.get('HTTP_X_FORWARDED_FOR') \
-        else u'{}'.format(request.META.get('REMOTE_ADDR'))
-    client_ip_address = ip_address(client_ip)
+    forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
+    client_ip_address = ip_address(
+        forwarded_for.split(',')[0].strip() if forwarded_for else request.META.get('REMOTE_ADDR')
+    )
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
     valid_access = False
