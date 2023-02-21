@@ -171,6 +171,9 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r'^https://cozyfex.com',
     r'^https://www.cozyfex.com',
     r'^https://kimminyoung.cozyfex.com',
+    r'^https://kimminyoung-board-js.cozyfex.com',
+    r'^https://kimminyoung-board-react.cozyfex.com',
+    r'^https://kimminyoung-naming.cozyfex.com',
     r'^https://chloe.cozyfex.com',
 ]
 CORS_ALLOW_ALL_ORIGINS = False
